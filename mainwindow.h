@@ -4,6 +4,7 @@ enum DISTRIBUTION {DISJOINT, GAMMA, NORMAL5, NORMAL9, UNIFORM};
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "histogram.h"
 
 namespace Ui {
 class MainWindow;

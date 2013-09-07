@@ -13,10 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    histogram.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    histogram.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    histogram.ui
 
 QMAKE_CXXFLAGS += -std=c++11

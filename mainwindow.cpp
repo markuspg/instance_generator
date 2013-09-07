@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "histogram.h"
 #include "ui_mainwindow.h"
 
 #include <QFile>
@@ -84,6 +85,10 @@ void MainWindow::generate_problem() {
     }
     out << "\n";
     output_file.close();
+
+    Histogram *histogram;
+    histogram = new Histogram(process_durations);
+    histogram->show();
 }
 
 void MainWindow::on_PBCreateProblemInstance_clicked() {
