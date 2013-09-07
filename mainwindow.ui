@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>363</width>
-    <height>254</height>
+    <height>223</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,9 +27,39 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="RBDummyDistribution">
+         <widget class="QRadioButton" name="RBDisjointUniformDistribution">
           <property name="text">
-           <string>Dummy</string>
+           <string>Disjount Uniform</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="RBGammaDistribution">
+          <property name="toolTip">
+           <string>α = 2, β = 10</string>
+          </property>
+          <property name="text">
+           <string>Gamma</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="RBNormal5Distribution">
+          <property name="toolTip">
+           <string>mean = interval / 2</string>
+          </property>
+          <property name="text">
+           <string>Normal (var = 5)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="RBNormal9Distribution">
+          <property name="toolTip">
+           <string>mean = interval / 2</string>
+          </property>
+          <property name="text">
+           <string>Normal (var = 9)</string>
           </property>
          </widget>
         </item>

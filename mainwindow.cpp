@@ -33,14 +33,40 @@ void MainWindow::generate_problem() {
     unsigned int seed = QDateTime::currentMSecsSinceEpoch();
     std::default_random_engine engine(seed);
     switch(choice) {
-    /* case NORMAL: {
-        std::normal_distribution<unsigned short int> generator();
+    case DISJOINT: {
+        std::uniform_int_distribution<unsigned int> generator_lower_interval(1, static_cast<int>(0.2 * (interval_upper_bound - 1)));
+        for (unsigned short int j = 0; j < floor(processes_quantity * 0.02); j++) {
+            process_durations.push_back(generator_lower_interval(engine));
+        }
+        std::uniform_int_distribution<unsigned int> generator_upper_interval(floor(0.9 * (interval_upper_bound - 1)), interval_upper_bound);
+        for (unsigned short int j = (processes_quantity * 0.02); j < processes_quantity; j++) {
+            process_durations.push_back(generator_upper_interval(engine));
+        }
+        break;
+    }
+    case GAMMA: {
+        std::gamma_distribution<double> generator(2,10);
         for (unsigned short int j = 0; j < processes_quantity; j++) {
             process_durations.push_back(generator(engine));
         }
-    } */
+        break;
+    }
+    case NORMAL5: {
+        std::normal_distribution<double> generator((interval_upper_bound / 2), 5.0);
+        for (unsigned short int j = 0; j < processes_quantity; j++) {
+            process_durations.push_back(generator(engine));
+        }
+        break;
+    }
+    case NORMAL9: {
+        std::normal_distribution<double> generator((interval_upper_bound / 2), 9.0);
+        for (unsigned short int j = 0; j < processes_quantity; j++) {
+            process_durations.push_back(generator(engine));
+        }
+        break;
+    }
     case UNIFORM: {
-        std::uniform_int_distribution<unsigned short int> generator (1, interval_upper_bound);
+        std::uniform_int_distribution<unsigned int> generator(1, interval_upper_bound);
         for (unsigned short int j = 0; j < processes_quantity; j++) {
             process_durations.push_back(generator(engine));
         }
@@ -64,10 +90,28 @@ void MainWindow::on_PBCreateProblemInstance_clicked() {
     generate_problem();
 }
 
-void MainWindow::on_RBNormalDistribution_toggled(bool checked)
+void MainWindow::on_RBDisjointUniformDistribution_toggled(bool checked)
 {
     if (checked)
-        choice = NORMAL;
+        choice = DISJOINT;
+}
+
+void MainWindow::on_RBGammaDistribution_toggled(bool checked)
+{
+    if (checked)
+        choice = GAMMA;
+}
+
+void MainWindow::on_RBNormal5Distribution_toggled(bool checked)
+{
+    if (checked)
+        choice = NORMAL5;
+}
+
+void MainWindow::on_RBNormal9Distribution_toggled(bool checked)
+{
+    if (checked)
+        choice = NORMAL9;
 }
 
 void MainWindow::on_RBUniformDistribution_toggled(bool checked)

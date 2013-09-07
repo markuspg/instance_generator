@@ -1,4 +1,4 @@
-enum DISTRIBUTION {NORMAL, UNIFORM};
+enum DISTRIBUTION {DISJOINT, GAMMA, NORMAL5, NORMAL9, UNIFORM};
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -20,7 +20,13 @@ public:
 private slots:
     void on_PBCreateProblemInstance_clicked();
 
-    void on_RBNormalDistribution_toggled(bool checked);
+    void on_RBDisjointUniformDistribution_toggled(bool checked);
+
+    void on_RBGammaDistribution_toggled(bool checked);
+
+    void on_RBNormal5Distribution_toggled(bool checked);
+
+    void on_RBNormal9Distribution_toggled(bool checked);
 
     void on_RBUniformDistribution_toggled(bool checked);
 
