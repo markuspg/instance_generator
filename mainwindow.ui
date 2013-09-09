@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>363</width>
-    <height>223</height>
+    <height>242</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <layout class="QVBoxLayout" name="VLProbabilityDistribution">
         <item>
@@ -73,7 +73,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="HLSettings">
+       <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <layout class="QVBoxLayout" name="VLLabels">
           <item>
@@ -122,7 +122,17 @@
            </widget>
           </item>
           <item>
+           <widget class="QLabel" name="LInstances">
+            <property name="text">
+             <string>Instances</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QLabel" name="LFIlename">
+            <property name="toolTip">
+             <string>.pbl will be appended</string>
+            </property>
             <property name="text">
              <string>Filename</string>
             </property>
@@ -135,7 +145,7 @@
           <item>
            <widget class="QLineEdit" name="LEMachineQuantity">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -145,7 +155,7 @@
           <item>
            <widget class="QLineEdit" name="LEProcessQuantity">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -156,9 +166,12 @@
            <widget class="QLineEdit" name="LEInterval"/>
           </item>
           <item>
+           <widget class="QLineEdit" name="LEInstances"/>
+          </item>
+          <item>
            <widget class="QLineEdit" name="LEFilename">
             <property name="text">
-             <string>problem.pbl</string>
+             <string>problem</string>
             </property>
            </widget>
           </item>
@@ -171,7 +184,7 @@
     <item>
      <widget class="QPushButton" name="PBCreateProblemInstance">
       <property name="text">
-       <string>Create Problem Instance</string>
+       <string>Create Problem Instances</string>
       </property>
      </widget>
     </item>

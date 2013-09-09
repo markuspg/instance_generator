@@ -87,7 +87,7 @@ void MainWindow::generate_problem() {
     output_file.close();
 
     Histogram *histogram;
-    histogram = new Histogram(process_durations);
+    histogram = new Histogram(process_durations, ui->LEInterval->text().toUInt());
     histogram->show();
 }
 
