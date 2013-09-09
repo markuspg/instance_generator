@@ -14,7 +14,7 @@ class Histogram : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit Histogram(std::vector<unsigned int> durations, unsigned int interval_upper_bound, QWidget *parent = 0);
+    explicit Histogram(std::vector<unsigned int> durations, unsigned int interval_upper_bound, QString filename, QWidget *parent = 0);
     ~Histogram();
     
 private:

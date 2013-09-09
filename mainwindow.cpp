@@ -95,7 +95,7 @@ void MainWindow::generate_problem() {
         ui->statusBar->showMessage("The problem instances have been created");
 
         Histogram *histogram;
-        histogram = new Histogram(process_durations, ui->LEInterval->text().toUInt());
+        histogram = new Histogram(process_durations, ui->LEInterval->text().toUInt(), filename);
         histogram->show();
     }
 }

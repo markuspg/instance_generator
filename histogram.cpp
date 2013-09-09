@@ -1,12 +1,13 @@
 #include "histogram.h"
 #include "ui_histogram.h"
 
-Histogram::Histogram(std::vector<unsigned int> durations, unsigned int interval_upper_bound, QWidget *parent) :
+Histogram::Histogram(std::vector<unsigned int> durations, unsigned int interval_upper_bound, QString filename, QWidget *parent) :
     QMainWindow(parent),
     interval(interval_upper_bound),
     process_durations(nullptr),
     ui(new Ui::Histogram)
 {
+    // Create a QGraphicsScene and add the graphics to it
     process_durations = new std::vector<unsigned int> (durations);
     ui->setupUi(this);
     scene = new QGraphicsScene();
@@ -22,6 +23,16 @@ Histogram::Histogram(std::vector<unsigned int> durations, unsigned int interval_
         }
         current_shown_process += 1;
     }
+
+    // Save the QGrapicsScene to a file
+    scene->clearSelection(); // Selections would also render to the file
+    scene->setSceneRect(scene->itemsBoundingRect()); // Re-shrink the scene to it's bounding contents
+    QImage image(scene->sceneRect().size().toSize(), QImage::Format_ARGB32); // Create the image with the exact size of the shrunk scene
+    image.fill(Qt::white); // Start all pixels transparent
+
+    QPainter painter(&image);
+    scene->render(&painter);
+    image.save(filename.append(".png"));
 }
 
 Histogram::~Histogram()
