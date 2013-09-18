@@ -27,46 +27,37 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="RBDisjointUniformDistribution">
+         <widget class="QRadioButton" name="RBNormal50Distribution">
           <property name="text">
-           <string>Disjount Uniform</string>
+           <string>Normal (Var = 50)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="RBGammaDistribution">
-          <property name="toolTip">
-           <string>α = 2, β = 10</string>
-          </property>
+         <widget class="QRadioButton" name="RBNormal20Distribution">
           <property name="text">
-           <string>Gamma</string>
+           <string>Normal (Var = 20)</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="RBNormal5Distribution">
-          <property name="toolTip">
-           <string>mean = interval / 2</string>
-          </property>
+         <widget class="QRadioButton" name="RBUniform1Distribution">
           <property name="text">
-           <string>Normal (var = 5)</string>
+           <string>Uniform [1;100]</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="RBNormal9Distribution">
-          <property name="toolTip">
-           <string>mean = interval / 2</string>
-          </property>
+         <widget class="QRadioButton" name="RBUniform20Distribution">
           <property name="text">
-           <string>Normal (var = 9)</string>
+           <string>Uniform [20;100]</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="RBUniformDistribution">
+         <widget class="QRadioButton" name="RBUniform50Distribution">
           <property name="text">
-           <string>Uniform</string>
+           <string>Uniform [50;100]</string>
           </property>
          </widget>
         </item>
@@ -115,13 +106,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="LInterval">
-            <property name="text">
-             <string>Interval</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QLabel" name="LInstances">
             <property name="text">
              <string>Instances</string>
@@ -161,9 +145,6 @@
              </sizepolicy>
             </property>
            </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="LEInterval"/>
           </item>
           <item>
            <widget class="QLineEdit" name="LEInstances"/>

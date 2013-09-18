@@ -1,4 +1,4 @@
-enum DISTRIBUTION {DISJOINT, GAMMA, NORMAL5, NORMAL9, UNIFORM};
+enum DISTRIBUTION {NORMAL20, NORMAL50, UNIFORM1, UNIFORM20, UNIFORM50};
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -21,15 +21,15 @@ public:
 private slots:
     void on_PBCreateProblemInstance_clicked();
 
-    void on_RBDisjointUniformDistribution_toggled(bool checked);
+    void on_RBNormal50Distribution_toggled(bool checked);
 
-    void on_RBGammaDistribution_toggled(bool checked);
+    void on_RBNormal20Distribution_toggled(bool checked);
 
-    void on_RBNormal5Distribution_toggled(bool checked);
+    void on_RBUniform1Distribution_toggled(bool checked);
 
-    void on_RBNormal9Distribution_toggled(bool checked);
+    void on_RBUniform20Distribution_toggled(bool checked);
 
-    void on_RBUniformDistribution_toggled(bool checked);
+    void on_RBUniform50Distribution_toggled(bool checked);
 
 private:
     Ui::MainWindow *ui;
