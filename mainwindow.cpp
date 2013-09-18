@@ -21,13 +21,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::generate_problem() {
     for (unsigned int k = 1; k <= ui->LEInstances->text().toUInt(); k++) {
-        // Create the filename and open the file
+        // Create the filenames and open the files
         QString filename(ui->LEFilename->text());
+        QString xpressdatafilename(ui->LEFilename->text());
         filename.append(QString("%1").arg(k));
+        xpressdatafilename.append(QString("%1").arg(k));
         filename.append(".pbl");
-        // Open the file to write to
+        xpressdatafilename.append(".txt");
+        // Open the files to write to
         QFile output_file(filename);
+        QFile xpress_output_file(xpressdatafilename);
         output_file.open(QIODevice::WriteOnly | QIODevice::Text);
+        xpress_output_file.open(QIODevice::WriteOnly | QIODevice::Text);
 
         // Create the vector storing the processes' durations
         std::vector<unsigned int> process_durations;
@@ -77,16 +82,23 @@ void MainWindow::generate_problem() {
 
         // Storing the problem's general settings
         QTextStream out(&output_file);
+        QTextStream xpress_out(&xpress_output_file);
         out << "# Machines\n" << ui->LEMachineQuantity->text() << "\n# Processes\n" << ui->LEProcessQuantity->text() << "\n# Process durations\n";
+        xpress_out << "Machines: " << ui->LEMachineQuantity->text() <<"\nProcesses: [";
 
         // Store the problem's process durations. The vector is iterated reversely because of a wrong order of the sort function.
         for (std::vector<unsigned int>::reverse_iterator rit = process_durations.rbegin(); rit != process_durations.rend(); ++rit) {
             out << *rit;
-            if (rit != (process_durations.rend() - 1))
+            xpress_out << *rit;
+            if (rit != (process_durations.rend() - 1)) {
                 out << ";";
+                xpress_out << ",";
+            }
         }
         out << "\n";
+        xpress_out << "]\n";
         output_file.close();
+        xpress_output_file.close();
         ui->statusBar->showMessage("The problem instances have been created");
 
         Histogram *histogram;
