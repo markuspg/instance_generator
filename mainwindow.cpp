@@ -53,7 +53,11 @@ void MainWindow::generate_problem() {
         case NORMAL50: {
             std::normal_distribution<double> generator(100.0, 50.0);
             for (unsigned short int j = 0; j < processes_quantity; j++) {
-                process_durations.push_back(static_cast<unsigned int>(generator(engine) + 0.5));
+                double temp = 1;
+                do {
+                    temp = generator(engine) + 0.5;
+                } while (temp < 0);
+                process_durations.push_back(static_cast<unsigned int>(temp));
             }
             break;
         }
