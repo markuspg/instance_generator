@@ -9,6 +9,7 @@ Histogram::Histogram(std::vector<unsigned int> durations, QString filename, QWid
     // Create a QGraphicsScene and add the graphics to it
     process_durations = new std::vector<unsigned int> (durations);
     ui->setupUi(this);
+    this->setWindowTitle(filename);
     scene = new QGraphicsScene();
     ui->GVHistogram->setScene(scene);
     unsigned short int current_shown_process = 0, vector_size = process_durations->size();

@@ -31,9 +31,12 @@ private slots:
 
     void on_RBUniform50Distribution_toggled(bool checked);
 
+    void on_PBCreateDefaultInstances_clicked();
+
 private:
     Ui::MainWindow *ui;
     void generate_problem ();
+    void generate_default_instances();
     unsigned int choice;
 };
 
