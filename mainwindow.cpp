@@ -105,9 +105,9 @@ void MainWindow::generate_problem() {
         xpress_output_file.close();
         ui->statusBar->showMessage("The problem instances have been created");
 
-        Histogram *histogram;
-        histogram = new Histogram(process_durations, filename);
-        histogram->show();
+        // Histogram *histogram;
+        // histogram = new Histogram(process_durations, filename);
+        // histogram->show();
     }
 }
 
