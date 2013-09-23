@@ -44,14 +44,14 @@ void MainWindow::generate_problem() {
         std::default_random_engine engine(seed);
         switch(choice) {
         case NORMAL20: {
-            std::normal_distribution<double> generator(100, 20);
+            std::normal_distribution<double> generator(100.0, 20.0);
             for (unsigned short int j = 0; j < processes_quantity; j++) {
                 process_durations.push_back(static_cast<unsigned int>(generator(engine) + 0.5));
             }
             break;
         }
         case NORMAL50: {
-            std::normal_distribution<double> generator(100, 50);
+            std::normal_distribution<double> generator(100.0, 50.0);
             for (unsigned short int j = 0; j < processes_quantity; j++) {
                 process_durations.push_back(static_cast<unsigned int>(generator(engine) + 0.5));
             }
