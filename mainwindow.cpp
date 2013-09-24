@@ -49,7 +49,11 @@ void MainWindow::generate_problem() {
         case NORMAL20: {
             std::normal_distribution<double> generator(100.0, 20.0);
             for (unsigned short int j = 0; j < processes_quantity; j++) {
-                process_durations.push_back(static_cast<unsigned int>(generator(engine) + 0.5));
+                double temp = 1;
+                do {
+                    temp = generator(engine) + 0.5;
+                } while (temp < 1);
+                process_durations.push_back(static_cast<unsigned int>(temp));
             }
             break;
         }
@@ -59,7 +63,7 @@ void MainWindow::generate_problem() {
                 double temp = 1;
                 do {
                     temp = generator(engine) + 0.5;
-                } while (temp < 0);
+                } while (temp < 1);
                 process_durations.push_back(static_cast<unsigned int>(temp));
             }
             break;
@@ -166,7 +170,11 @@ void MainWindow::generate_default_instances() {
                 case 0: {
                     std::normal_distribution<double> generator(100.0, 20.0);
                     for (unsigned short int w = 0; w < sizes[u][1]; w++) {
-                        process_durations.push_back(static_cast<unsigned int>(generator(engine) + 0.5));
+                        double temp = 1;
+                        do {
+                            temp = generator(engine) + 0.5;
+                        } while (temp < 1);
+                        process_durations.push_back(static_cast<unsigned int>(temp));
                     }
                     break;
                 }
@@ -176,7 +184,7 @@ void MainWindow::generate_default_instances() {
                         double temp = 1;
                         do {
                             temp = generator(engine) + 0.5;
-                        } while (temp < 0);
+                        } while (temp < 1);
                         process_durations.push_back(static_cast<unsigned int>(temp));
                     }
                     break;
