@@ -162,7 +162,7 @@ void MainWindow::generate_default_instances() {
 
                 unsigned int seed = QDateTime::currentMSecsSinceEpoch();
                 std::default_random_engine engine(seed);
-                switch(choice) {
+                switch(t) {
                 case 0: {
                     std::normal_distribution<double> generator(100.0, 20.0);
                     for (unsigned short int w = 0; w < sizes[u][1]; w++) {
