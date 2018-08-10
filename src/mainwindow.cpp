@@ -11,20 +11,18 @@
 
 #include <random>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    choice(0)
+MainWindow::MainWindow(QWidget *const argParent) :
+    QMainWindow{argParent},
+    ui{std::make_unique<Ui::MainWindow>()}
 {
     ui->setupUi(this);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
 }
 
-void MainWindow::generate_problem() {
+void MainWindow::GenerateProblem() {
     for (unsigned int k = 1; k <= ui->LEInstances->text().toUInt(); k++) {
         // Create the filenames and open the files
         QString filename(ui->LEFilename->text());
@@ -48,7 +46,7 @@ void MainWindow::generate_problem() {
         unsigned int seed = QDateTime::currentMSecsSinceEpoch();
         std::default_random_engine engine(seed);
         switch(choice) {
-        case NORMAL20: {
+        case EDistribution::NORMAL20: {
             std::normal_distribution<double> generator(100.0, 20.0);
             for (unsigned short int j = 0; j < processes_quantity; j++) {
                 double temp = 1;
@@ -59,7 +57,7 @@ void MainWindow::generate_problem() {
             }
             break;
         }
-        case NORMAL50: {
+        case EDistribution::NORMAL50: {
             std::normal_distribution<double> generator(100.0, 50.0);
             for (unsigned short int j = 0; j < processes_quantity; j++) {
                 double temp = 1;
@@ -70,21 +68,21 @@ void MainWindow::generate_problem() {
             }
             break;
         }
-        case UNIFORM1: {
+        case EDistribution::UNIFORM1: {
             std::uniform_int_distribution<unsigned int> generator(1, 100);
             for (unsigned short int j = 0; j < processes_quantity; j++) {
                 process_durations.push_back(generator(engine));
             }
             break;
         }
-        case UNIFORM20: {
+        case EDistribution::UNIFORM20: {
             std::uniform_int_distribution<unsigned int> generator(20, 100);
             for (unsigned short int j = 0; j < processes_quantity; j++) {
                 process_durations.push_back(generator(engine));
             }
             break;
         }
-        case UNIFORM50: {
+        case EDistribution::UNIFORM50: {
             std::uniform_int_distribution<unsigned int> generator(50, 100);
             for (unsigned short int j = 0; j < processes_quantity; j++) {
                 process_durations.push_back(generator(engine));
@@ -121,7 +119,7 @@ void MainWindow::generate_problem() {
     }
 }
 
-void MainWindow::generate_default_instances() {
+void MainWindow::GenerateDefaultInstances() {
     // The sizes
     unsigned short int sizes[17][2] = {{10,11},{100,110},{1000,1100},{6,9},{60,90},{600,900},{4,10},{40,100},{400,1000},{10,50},{100,500},{1000,5000},{10,100},{100,1000},{1000,10000},{10,1000},{100,10000}};
 
@@ -254,40 +252,40 @@ void MainWindow::generate_default_instances() {
 }
 
 void MainWindow::on_PBCreateProblemInstance_clicked() {
-    generate_problem();
+    GenerateProblem();
 }
 
-void MainWindow::on_RBNormal50Distribution_toggled(bool checked)
+void MainWindow::on_RBNormal50Distribution_toggled(const bool argChecked)
 {
-    if (checked)
-        choice = NORMAL50;
+    if (argChecked == true)
+        choice = EDistribution::NORMAL50;
 }
 
-void MainWindow::on_RBNormal20Distribution_toggled(bool checked)
+void MainWindow::on_RBNormal20Distribution_toggled(const bool argChecked)
 {
-    if (checked)
-        choice = NORMAL20;
+    if (argChecked == true)
+        choice = EDistribution::NORMAL20;
 }
 
-void MainWindow::on_RBUniform1Distribution_toggled(bool checked)
+void MainWindow::on_RBUniform1Distribution_toggled(const bool argChecked)
 {
-    if (checked)
-        choice = UNIFORM1;
+    if (argChecked == true)
+        choice = EDistribution::UNIFORM1;
 }
 
-void MainWindow::on_RBUniform20Distribution_toggled(bool checked)
+void MainWindow::on_RBUniform20Distribution_toggled(const bool argChecked)
 {
-    if (checked)
-        choice = UNIFORM20;
+    if (argChecked == true)
+        choice = EDistribution::UNIFORM20;
 }
 
-void MainWindow::on_RBUniform50Distribution_toggled(bool checked)
+void MainWindow::on_RBUniform50Distribution_toggled(const bool argChecked)
 {
-    if (checked)
-        choice = UNIFORM50;
+    if (argChecked == true)
+        choice = EDistribution::UNIFORM50;
 }
 
 void MainWindow::on_PBCreateDefaultInstances_clicked()
 {
-    generate_default_instances();
+    GenerateDefaultInstances();
 }
