@@ -9,6 +9,8 @@
 #include <QThread>
 #include <QDateTime>
 
+#include <random>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),

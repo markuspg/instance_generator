@@ -1,25 +1,17 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2013-09-07T15:02:01
-#
-#-------------------------------------------------
-
-QT       += core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui widgets
 
 TARGET = instance_generator
 TEMPLATE = app
 
+FORMS    += \
+    ui/histogram.ui \
+    ui/mainwindow.ui \
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    histogram.cpp
+HEADERS  += \
+    src/histogram.h \
+    src/mainwindow.h \
 
-HEADERS  += mainwindow.h \
-    histogram.h
-
-FORMS    += mainwindow.ui \
-    histogram.ui
-
-QMAKE_CXXFLAGS += -std=c++11
+SOURCES += \
+    src/histogram.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp \
