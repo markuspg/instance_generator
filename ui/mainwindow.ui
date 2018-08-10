@@ -59,29 +59,6 @@
          <string>Problem Parameters</string>
         </property>
         <layout class="QGridLayout" name="GLProblemParameters">
-         <item row="2" column="1">
-          <widget class="QLineEdit" name="LEInstances"/>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="LEMachineQuantity">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="LEProcessQuantity">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
          <item row="2" column="0">
           <widget class="QLabel" name="LInstances">
            <property name="text">
@@ -141,6 +118,36 @@
           <widget class="QLineEdit" name="LEFilename">
            <property name="text">
             <string>problem</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="SBMachines">
+           <property name="accelerated">
+            <bool>true</bool>
+           </property>
+           <property name="maximum">
+            <number>9999</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="SBProcesses">
+           <property name="accelerated">
+            <bool>true</bool>
+           </property>
+           <property name="maximum">
+            <number>9999</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="SBInstances">
+           <property name="accelerated">
+            <bool>true</bool>
+           </property>
+           <property name="maximum">
+            <number>9999</number>
            </property>
           </widget>
          </item>

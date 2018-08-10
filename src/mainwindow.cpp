@@ -43,7 +43,8 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::GenerateProblem() {
-    for (unsigned int k = 1; k <= ui->LEInstances->text().toUInt(); ++k) {
+    const auto instanceQuantity = ui->SBInstances->value();
+    for (int k = 0; k < instanceQuantity; ++k) {
         // Create the filenames and open the files
         const auto filename{
             QString{"%1%2%3"}.arg(ui->LEFilename->text()).arg(k).arg(".pbl")};
@@ -62,63 +63,69 @@ void MainWindow::GenerateProblem() {
 
         // Create the vector storing the processes' durations
         std::vector<unsigned int> processDurations;
-        const auto processesQuantity = ui->LEProcessQuantity->text().toUShort();
-        processDurations.reserve(processesQuantity);
+        const auto processesQuantity = ui->SBProcesses->value();
+        processDurations.reserve(
+                    static_cast<decltype(processDurations)::size_type>(
+                        processesQuantity));
 
         // Create the process durations and store them sorted in the vector
-        unsigned int seed = QDateTime::currentMSecsSinceEpoch();
-        std::default_random_engine engine(seed);
+        const auto seed = QDateTime::currentMSecsSinceEpoch();
+        std::default_random_engine engine{seed};
         switch(choice) {
         case EDistribution::NORMAL20: {
-            std::normal_distribution<double> generator(100.0, 20.0);
-            for (unsigned short int j = 0; j < processesQuantity; j++) {
+            std::normal_distribution<double> generator{100.0, 20.0};
+            for (unsigned short int j = 0; j < processesQuantity; ++j) {
                 double temp = 1;
                 do {
                     temp = generator(engine) + 0.5;
                 } while (temp < 1);
-                processDurations.push_back(static_cast<unsigned int>(temp));
+                processDurations.emplace_back(static_cast<unsigned int>(temp));
             }
             break;
         }
         case EDistribution::NORMAL50: {
-            std::normal_distribution<double> generator(100.0, 50.0);
-            for (unsigned short int j = 0; j < processesQuantity; j++) {
+            std::normal_distribution<double> generator{100.0, 50.0};
+            for (unsigned short int j = 0; j < processesQuantity; ++j) {
                 double temp = 1;
                 do {
                     temp = generator(engine) + 0.5;
                 } while (temp < 1);
-                processDurations.push_back(static_cast<unsigned int>(temp));
+                processDurations.emplace_back(static_cast<unsigned int>(temp));
             }
             break;
         }
         case EDistribution::UNIFORM1: {
-            std::uniform_int_distribution<unsigned int> generator(1, 100);
-            for (unsigned short int j = 0; j < processesQuantity; j++) {
-                processDurations.push_back(generator(engine));
+            std::uniform_int_distribution<unsigned int> generator{1, 100};
+            for (unsigned short int j = 0; j < processesQuantity; ++j) {
+                processDurations.emplace_back(generator(engine));
             }
             break;
         }
         case EDistribution::UNIFORM20: {
-            std::uniform_int_distribution<unsigned int> generator(20, 100);
-            for (unsigned short int j = 0; j < processesQuantity; j++) {
-                processDurations.push_back(generator(engine));
+            std::uniform_int_distribution<unsigned int> generator{20, 100};
+            for (unsigned short int j = 0; j < processesQuantity; ++j) {
+                processDurations.emplace_back(generator(engine));
             }
             break;
         }
         case EDistribution::UNIFORM50: {
-            std::uniform_int_distribution<unsigned int> generator(50, 100);
-            for (unsigned short int j = 0; j < processesQuantity; j++) {
-                processDurations.push_back(generator(engine));
+            std::uniform_int_distribution<unsigned int> generator{50, 100};
+            for (unsigned short int j = 0; j < processesQuantity; ++j) {
+                processDurations.emplace_back(generator(engine));
             }
         }
         }
-        std::sort (processDurations.begin(), processDurations.end());
+        std::sort(processDurations.begin(), processDurations.end());
 
         // Storing the problem's general settings
         QTextStream out(&outputFile);
         QTextStream xpress_out(&xPressOutputFile);
-        out << "# Machines\n" << ui->LEMachineQuantity->text() << "\n# Processes\n" << ui->LEProcessQuantity->text() << "\n# Process durations\n";
-        xpress_out << "Machines: " << ui->LEMachineQuantity->text() << "\nProcesses: " << ui->LEProcessQuantity->text() << "\nDurations: [";
+        out << "# Machines\n" << ui->SBMachines->value()
+            << "\n# Processes\n" << ui->SBProcesses->value()
+            << "\n# Process durations\n";
+        xpress_out << "Machines: " << ui->SBMachines->value()
+                   << "\nProcesses: " << ui->SBProcesses->value()
+                   << "\nDurations: [";
 
         // Store the problem's process durations. The vector is iterated reversely because of a wrong order of the sort function.
         for (std::vector<unsigned int>::reverse_iterator rit = processDurations.rbegin(); rit != processDurations.rend(); ++rit) {
