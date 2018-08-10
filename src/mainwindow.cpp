@@ -1,8 +1,10 @@
+#include "exceptions.h"
 #include "histogram.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <QDateTime>
+#include <QException>
 #include <QFile>
 #include <QTextStream>
 #include <QThread>
@@ -22,24 +24,27 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::GenerateProblem() {
-    for (unsigned int k = 1; k <= ui->LEInstances->text().toUInt(); k++) {
+    for (unsigned int k = 1; k <= ui->LEInstances->text().toUInt(); ++k) {
         // Create the filenames and open the files
-        QString filename(ui->LEFilename->text());
-        QString xpressdatafilename(ui->LEFilename->text());
-        filename.append(QString("%1").arg(k));
-        xpressdatafilename.append(QString("%1").arg(k));
-        filename.append(".pbl");
-        xpressdatafilename.append(".txt");
+        const auto filename{
+            QString{"%1%2%3"}.arg(ui->LEFilename->text()).arg(k).arg(".pbl")};
+
         // Open the files to write to
-        QFile output_file(filename);
-        QFile xpress_output_file(xpressdatafilename);
-        output_file.open(QIODevice::WriteOnly | QIODevice::Text);
-        xpress_output_file.open(QIODevice::WriteOnly | QIODevice::Text);
+        QFile outputFile{filename};
+        QFile xPressOutputFile{
+            QString{"%1%2%3"}.arg(ui->LEFilename->text()).arg(k).arg(".txt")};
+
+        if (outputFile.open(QIODevice::Text | QIODevice::WriteOnly) == false) {
+            throw FileOpenFailureException{};
+        }
+        if (xPressOutputFile.open(QIODevice::Text | QIODevice::WriteOnly) == false) {
+            throw FileOpenFailureException{};
+        }
 
         // Create the vector storing the processes' durations
-        std::vector<unsigned int> process_durations;
-        unsigned short int processes_quantity = ui->LEProcessQuantity->text().toUShort();
-        process_durations.reserve(processes_quantity);
+        std::vector<unsigned int> processDurations;
+        const auto processesQuantity = ui->LEProcessQuantity->text().toUShort();
+        processDurations.reserve(processesQuantity);
 
         // Create the process durations and store them sorted in the vector
         unsigned int seed = QDateTime::currentMSecsSinceEpoch();
@@ -47,72 +52,72 @@ void MainWindow::GenerateProblem() {
         switch(choice) {
         case EDistribution::NORMAL20: {
             std::normal_distribution<double> generator(100.0, 20.0);
-            for (unsigned short int j = 0; j < processes_quantity; j++) {
+            for (unsigned short int j = 0; j < processesQuantity; j++) {
                 double temp = 1;
                 do {
                     temp = generator(engine) + 0.5;
                 } while (temp < 1);
-                process_durations.push_back(static_cast<unsigned int>(temp));
+                processDurations.push_back(static_cast<unsigned int>(temp));
             }
             break;
         }
         case EDistribution::NORMAL50: {
             std::normal_distribution<double> generator(100.0, 50.0);
-            for (unsigned short int j = 0; j < processes_quantity; j++) {
+            for (unsigned short int j = 0; j < processesQuantity; j++) {
                 double temp = 1;
                 do {
                     temp = generator(engine) + 0.5;
                 } while (temp < 1);
-                process_durations.push_back(static_cast<unsigned int>(temp));
+                processDurations.push_back(static_cast<unsigned int>(temp));
             }
             break;
         }
         case EDistribution::UNIFORM1: {
             std::uniform_int_distribution<unsigned int> generator(1, 100);
-            for (unsigned short int j = 0; j < processes_quantity; j++) {
-                process_durations.push_back(generator(engine));
+            for (unsigned short int j = 0; j < processesQuantity; j++) {
+                processDurations.push_back(generator(engine));
             }
             break;
         }
         case EDistribution::UNIFORM20: {
             std::uniform_int_distribution<unsigned int> generator(20, 100);
-            for (unsigned short int j = 0; j < processes_quantity; j++) {
-                process_durations.push_back(generator(engine));
+            for (unsigned short int j = 0; j < processesQuantity; j++) {
+                processDurations.push_back(generator(engine));
             }
             break;
         }
         case EDistribution::UNIFORM50: {
             std::uniform_int_distribution<unsigned int> generator(50, 100);
-            for (unsigned short int j = 0; j < processes_quantity; j++) {
-                process_durations.push_back(generator(engine));
+            for (unsigned short int j = 0; j < processesQuantity; j++) {
+                processDurations.push_back(generator(engine));
             }
         }
         }
-        std::sort (process_durations.begin(), process_durations.end());
+        std::sort (processDurations.begin(), processDurations.end());
 
         // Storing the problem's general settings
-        QTextStream out(&output_file);
-        QTextStream xpress_out(&xpress_output_file);
+        QTextStream out(&outputFile);
+        QTextStream xpress_out(&xPressOutputFile);
         out << "# Machines\n" << ui->LEMachineQuantity->text() << "\n# Processes\n" << ui->LEProcessQuantity->text() << "\n# Process durations\n";
         xpress_out << "Machines: " << ui->LEMachineQuantity->text() << "\nProcesses: " << ui->LEProcessQuantity->text() << "\nDurations: [";
 
         // Store the problem's process durations. The vector is iterated reversely because of a wrong order of the sort function.
-        for (std::vector<unsigned int>::reverse_iterator rit = process_durations.rbegin(); rit != process_durations.rend(); ++rit) {
+        for (std::vector<unsigned int>::reverse_iterator rit = processDurations.rbegin(); rit != processDurations.rend(); ++rit) {
             out << *rit;
             xpress_out << *rit;
-            if (rit != (process_durations.rend() - 1)) {
+            if (rit != (processDurations.rend() - 1)) {
                 out << ";";
                 xpress_out << ",";
             }
         }
         out << "\n";
         xpress_out << "]\n";
-        output_file.close();
-        xpress_output_file.close();
+        outputFile.close();
+        xPressOutputFile.close();
         ui->statusBar->showMessage("The problem instances have been created");
 
         Histogram *histogram;
-        histogram = new Histogram(std::move(process_durations), filename);
+        histogram = new Histogram(std::move(processDurations), filename);
         histogram->show();
         histogram->setAttribute(Qt::WA_DeleteOnClose);
     }

@@ -8,10 +8,12 @@ FORMS    += \
     ui/mainwindow.ui \
 
 HEADERS  += \
+    src/exceptions.h \
     src/histogram.h \
     src/mainwindow.h \
 
 SOURCES += \
+    src/exceptions.cpp \
     src/histogram.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
