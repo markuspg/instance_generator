@@ -115,7 +115,7 @@ void MainWindow::generate_problem() {
         ui->statusBar->showMessage("The problem instances have been created");
 
         Histogram *histogram;
-        histogram = new Histogram(process_durations, filename);
+        histogram = new Histogram(std::move(process_durations), filename);
         histogram->show();
         histogram->setAttribute(Qt::WA_DeleteOnClose);
     }
@@ -240,7 +240,7 @@ void MainWindow::generate_default_instances() {
 
                 Histogram *histogram;
                 QString tempfilename = QString::fromUtf8(filename.c_str());
-                histogram = new Histogram(process_durations, tempfilename);
+                histogram = new Histogram(std::move(process_durations), tempfilename);
                 histogram->show();
                 histogram->setAttribute(Qt::WA_DeleteOnClose);
 
