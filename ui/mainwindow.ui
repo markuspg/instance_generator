@@ -2,163 +2,150 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>363</width>
-    <height>242</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>instance_generator</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="HLParameterEntries">
       <item>
-       <layout class="QVBoxLayout" name="VLProbabilityDistribution">
-        <item>
-         <widget class="QLabel" name="LProbabiltyDistibution">
-          <property name="text">
-           <string>Probability Distribution</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="RBNormal50Distribution">
-          <property name="text">
-           <string>Normal (Var = 50)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="RBNormal20Distribution">
-          <property name="text">
-           <string>Normal (Var = 20)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="RBUniform1Distribution">
-          <property name="text">
-           <string>Uniform [1;100]</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="RBUniform20Distribution">
-          <property name="text">
-           <string>Uniform [20;100]</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="RBUniform50Distribution">
-          <property name="text">
-           <string>Uniform [50;100]</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QGroupBox" name="GBProbabilityDistribution">
+        <property name="title">
+         <string>Probability Distribution</string>
+        </property>
+        <layout class="QVBoxLayout" name="VLProbabilityDistribution">
+         <item>
+          <widget class="QRadioButton" name="RBNormal50Distribution">
+           <property name="text">
+            <string>&amp;Normal (Var = 50)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="RBNormal20Distribution">
+           <property name="text">
+            <string>Normal (&amp;Var = 20)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="RBUniform1Distribution">
+           <property name="text">
+            <string>&amp;Uniform [1;100]</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="RBUniform20Distribution">
+           <property name="text">
+            <string>Uniform [&amp;20;100]</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="RBUniform50Distribution">
+           <property name="text">
+            <string>Uniform [&amp;50;100]</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <layout class="QVBoxLayout" name="VLLabels">
-          <item>
-           <widget class="QLabel" name="LMachineQuantity">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Machines</string>
-            </property>
-            <property name="textFormat">
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="LProcessQuantity">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Processes</string>
-            </property>
-            <property name="textFormat">
-             <enum>Qt::PlainText</enum>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="LInstances">
-            <property name="text">
-             <string>Instances</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="LFIlename">
-            <property name="toolTip">
-             <string>.pbl will be appended</string>
-            </property>
-            <property name="text">
-             <string>Filename</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="VLLineEdits">
-          <item>
-           <widget class="QLineEdit" name="LEMachineQuantity">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="LEProcessQuantity">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="LEInstances"/>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="LEFilename">
-            <property name="text">
-             <string>problem</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
+       <widget class="QGroupBox" name="GBProblemParameters">
+        <property name="title">
+         <string>Problem Parameters</string>
+        </property>
+        <layout class="QGridLayout" name="GLProblemParameters">
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="LEInstances"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="LEMachineQuantity">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="LEProcessQuantity">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="LInstances">
+           <property name="text">
+            <string>Instances</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="LMachineQuantity">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Machines</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::PlainText</enum>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="LProcessQuantity">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Processes</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::PlainText</enum>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="LFIlename">
+           <property name="toolTip">
+            <string>.pbl will be appended</string>
+           </property>
+           <property name="text">
+            <string>Filename</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="LEFilename">
+           <property name="text">
+            <string>problem</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
     </item>
