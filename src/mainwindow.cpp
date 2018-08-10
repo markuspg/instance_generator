@@ -1,14 +1,13 @@
-#include "mainwindow.h"
 #include "histogram.h"
+#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <fstream>
-#include <string>
+#include <QDateTime>
 #include <QFile>
 #include <QTextStream>
 #include <QThread>
-#include <QDateTime>
 
+#include <fstream>
 #include <random>
 
 MainWindow::MainWindow(QWidget *const argParent) :
