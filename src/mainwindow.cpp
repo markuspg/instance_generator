@@ -153,7 +153,19 @@ void MainWindow::GenerateProblem() {
 
 void MainWindow::GenerateDefaultInstances() {
     // The sizes
-    unsigned short int sizes[17][2] = {{10,11},{100,110},{1000,1100},{6,9},{60,90},{600,900},{4,10},{40,100},{400,1000},{10,50},{100,500},{1000,5000},{10,100},{100,1000},{1000,10000},{10,1000},{100,10000}};
+    struct Combination {
+        const unsigned short machineQty;
+        const unsigned short processQty;
+    };
+    using combiVec = std::vector<Combination>;
+    const combiVec combinations{
+        {10, 11}, {100, 110}, {1000, 1100},     // ratio 1:1.1
+        {6, 9}, {60, 90}, {600, 900},           // ratio 1:1.5
+        {4, 10}, {40, 100}, {400, 1000},        // ratio 1:2.5
+        {10, 50}, {100, 500}, {1000, 5000},     // ratio 1:5
+        {10, 100}, {100, 1000}, {1000, 10000},  // ratio 1:10
+        {10, 1000}, {100, 10000}                // ratio 1:100
+    };
 
     // Iterate over the different distributions
     for (unsigned int t = 0; t < 5; t++) {
@@ -177,14 +189,14 @@ void MainWindow::GenerateDefaultInstances() {
         }
 
         // Iterate over the different sizes
-        for (unsigned short int u = 0; u < 17; u++) {
+        for (const auto &comb : combinations) {
             // Iterate over the ten instances
             for (unsigned short int v = 1; v < 11; v++) {
                 std::string filename (distribution);
                 filename.append("-");
-                filename.append(std::to_string(sizes[u][0]));
+                filename.append(std::to_string(comb.machineQty));
                 filename.append("-");
-                filename.append(std::to_string(sizes[u][1]));
+                filename.append(std::to_string(comb.processQty));
                 filename.append(".");
 
                 filename.append(std::to_string(v));
@@ -194,14 +206,14 @@ void MainWindow::GenerateDefaultInstances() {
 
                 // Create Processes
                 std::vector<unsigned int> process_durations;
-                process_durations.reserve(sizes[u][1]);
+                process_durations.reserve(comb.processQty);
 
                 unsigned int seed = QDateTime::currentMSecsSinceEpoch();
                 std::default_random_engine engine(seed);
                 switch(t) {
                 case 0: {
                     std::normal_distribution<double> generator(100.0, 20.0);
-                    for (unsigned short int w = 0; w < sizes[u][1]; w++) {
+                    for (unsigned short int w = 0; w < comb.processQty; w++) {
                         double temp = 1;
                         do {
                             temp = generator(engine) + 0.5;
@@ -212,7 +224,7 @@ void MainWindow::GenerateDefaultInstances() {
                 }
                 case 1: {
                     std::normal_distribution<double> generator(100.0, 50.0);
-                    for (unsigned short int w = 0; w < sizes[u][1]; w++) {
+                    for (unsigned short int w = 0; w < comb.processQty; w++) {
                         double temp = 1;
                         do {
                             temp = generator(engine) + 0.5;
@@ -223,21 +235,21 @@ void MainWindow::GenerateDefaultInstances() {
                 }
                 case 2: {
                     std::uniform_int_distribution<unsigned int> generator(1, 100);
-                    for (unsigned short int w = 0; w < sizes[u][1]; w++) {
+                    for (unsigned short int w = 0; w < comb.processQty; w++) {
                         process_durations.push_back(generator(engine));
                     }
                     break;
                 }
                 case 3: {
                     std::uniform_int_distribution<unsigned int> generator(20, 100);
-                    for (unsigned short int w = 0; w < sizes[u][1]; w++) {
+                    for (unsigned short int w = 0; w < comb.processQty; w++) {
                         process_durations.push_back(generator(engine));
                     }
                     break;
                 }
                 case 4: {
                     std::uniform_int_distribution<unsigned int> generator(50, 100);
-                    for (unsigned short int w = 0; w < sizes[u][1]; w++) {
+                    for (unsigned short int w = 0; w < comb.processQty; w++) {
                         process_durations.push_back(generator(engine));
                     }
                 }
@@ -249,8 +261,12 @@ void MainWindow::GenerateDefaultInstances() {
                 xpress_output_file_stream.open (xpress_filename, std::ofstream::out | std::ofstream::trunc);
 
                 // Storing the problem's general settings
-                output_file_stream << "# Machines\n" << sizes[u][0] << "\n# Processes\n" << sizes[u][1] << "\n# Process durations\n";
-                xpress_output_file_stream << "Machines: " << sizes[u][0] << "\nProcesses: " << sizes[u][1] << "\nDurations: [";
+                output_file_stream << "# Machines\n" << comb.machineQty
+                                   << "\n# Processes\n" << comb.processQty
+                                   << "\n# Process durations\n";
+                xpress_output_file_stream << "Machines: " << comb.machineQty
+                                          << "\nProcesses: " << comb.processQty
+                                          << "\nDurations: [";
 
                 // Store the problem's process durations. The vector is iterated reversely because of a wrong order of the sort function.
                 for (std::vector<unsigned int>::reverse_iterator rit = process_durations.rbegin(); rit != process_durations.rend(); ++rit) {
