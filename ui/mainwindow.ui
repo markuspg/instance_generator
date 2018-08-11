@@ -126,6 +126,9 @@
            <property name="accelerated">
             <bool>true</bool>
            </property>
+           <property name="minimum">
+            <number>2</number>
+           </property>
            <property name="maximum">
             <number>9999</number>
            </property>
@@ -136,6 +139,9 @@
            <property name="accelerated">
             <bool>true</bool>
            </property>
+           <property name="minimum">
+            <number>2</number>
+           </property>
            <property name="maximum">
             <number>9999</number>
            </property>
@@ -145,6 +151,9 @@
           <widget class="QSpinBox" name="SBInstances">
            <property name="accelerated">
             <bool>true</bool>
+           </property>
+           <property name="minimum">
+            <number>1</number>
            </property>
            <property name="maximum">
             <number>9999</number>
