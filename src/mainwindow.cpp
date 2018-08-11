@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *const argParent) :
     ui{std::make_unique<Ui::MainWindow>()}
 {
     ui->setupUi(this);
+    ui->RBNormal50Distribution->click();
 }
 
 MainWindow::~MainWindow()
