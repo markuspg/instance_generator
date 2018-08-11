@@ -62,10 +62,10 @@ void MainWindow::GenerateProblem() {
         }
 
         // Create the vector storing the processes' durations
-        std::vector<unsigned int> processDurations;
+        using valVec = std::vector<unsigned int>;
+        valVec processDurations;
         const auto processesQuantity = ui->SBProcesses->value();
-        processDurations.reserve(
-                    static_cast<decltype(processDurations)::size_type>(
+        processDurations.reserve(static_cast<valVec::size_type>(
                         processesQuantity));
 
         // Create the process durations and store them sorted in the vector
@@ -115,11 +115,12 @@ void MainWindow::GenerateProblem() {
             }
         }
         }
-        std::sort(processDurations.begin(), processDurations.end());
+        std::sort(processDurations.begin(), processDurations.end(),
+                  std::greater<valVec::value_type>());
 
         // Storing the problem's general settings
-        QTextStream out(&outputFile);
-        QTextStream xpress_out(&xPressOutputFile);
+        QTextStream out{&outputFile};
+        QTextStream xpress_out{&xPressOutputFile};
         out << "# Machines\n" << ui->SBMachines->value()
             << "\n# Processes\n" << ui->SBProcesses->value()
             << "\n# Process durations\n";
@@ -127,11 +128,12 @@ void MainWindow::GenerateProblem() {
                    << "\nProcesses: " << ui->SBProcesses->value()
                    << "\nDurations: [";
 
-        // Store the problem's process durations. The vector is iterated reversely because of a wrong order of the sort function.
-        for (std::vector<unsigned int>::reverse_iterator rit = processDurations.rbegin(); rit != processDurations.rend(); ++rit) {
-            out << *rit;
-            xpress_out << *rit;
-            if (rit != (processDurations.rend() - 1)) {
+        // Store the problem's process durations.
+        for (auto cit = processDurations.cbegin();
+             cit != processDurations.cend(); ++cit) {
+            out << *cit;
+            xpress_out << *cit;
+            if (cit != (processDurations.cend() - 1)) {
                 out << ";";
                 xpress_out << ",";
             }
@@ -142,8 +144,8 @@ void MainWindow::GenerateProblem() {
         xPressOutputFile.close();
         ui->statusBar->showMessage("The problem instances have been created");
 
-        Histogram *histogram;
-        histogram = new Histogram(std::move(processDurations), filename);
+        const auto histogram = new Histogram{std::move(processDurations),
+                                             filename};
         histogram->show();
         histogram->setAttribute(Qt::WA_DeleteOnClose);
     }
