@@ -167,32 +167,33 @@ void MainWindow::GenerateDefaultInstances() {
         {10, 1000}, {100, 10000}                // ratio 1:100
     };
 
-    // Iterate over the different distributions
-    for (unsigned int t = 0; t < 5; t++) {
-        std::string distribution;
-        switch(t) {
-        case 0:
-            distribution = "normal20";
-            break;
-        case 1:
-            distribution = "normal50";
-            break;
-        case 2:
-            distribution = "uniform1";
-            break;
-        case 3:
-            distribution = "uniform20";
-            break;
-        case 4:
-            distribution = "uniform50";
-            break;
-        }
+    enum class EDistributions {
+        NORMAL20,
+        NORMAL50,
+        UNIFORM1,
+        UNIFORM20,
+        UNIFORM50,
+    };
+    struct dist_t {
+        const EDistributions distribution;
+        const std::string distributionName;
+    };
 
+    const std::vector<dist_t> distributions {
+        {EDistributions::NORMAL20, "normal20"},
+        {EDistributions::NORMAL50, "normal50"},
+        {EDistributions::UNIFORM1, "uniform1"},
+        {EDistributions::UNIFORM20, "uniform20"},
+        {EDistributions::UNIFORM50, "uniform50"}
+    };
+
+    // Iterate over the different distributions
+    for (const auto &distrib : distributions) {
         // Iterate over the different sizes
         for (const auto &comb : combinations) {
             // Iterate over the ten instances
             for (unsigned short int v = 1; v < 11; v++) {
-                std::string filename (distribution);
+                std::string filename{distrib.distributionName};
                 filename.append("-");
                 filename.append(std::to_string(comb.machineQty));
                 filename.append("-");
@@ -210,8 +211,8 @@ void MainWindow::GenerateDefaultInstances() {
 
                 unsigned int seed = QDateTime::currentMSecsSinceEpoch();
                 std::default_random_engine engine(seed);
-                switch(t) {
-                case 0: {
+                switch(distrib.distribution) {
+                case EDistributions::NORMAL20: {
                     std::normal_distribution<double> generator(100.0, 20.0);
                     for (unsigned short int w = 0; w < comb.processQty; w++) {
                         double temp = 1;
@@ -222,7 +223,7 @@ void MainWindow::GenerateDefaultInstances() {
                     }
                     break;
                 }
-                case 1: {
+                case EDistributions::NORMAL50: {
                     std::normal_distribution<double> generator(100.0, 50.0);
                     for (unsigned short int w = 0; w < comb.processQty; w++) {
                         double temp = 1;
@@ -233,21 +234,21 @@ void MainWindow::GenerateDefaultInstances() {
                     }
                     break;
                 }
-                case 2: {
+                case EDistributions::UNIFORM1: {
                     std::uniform_int_distribution<unsigned int> generator(1, 100);
                     for (unsigned short int w = 0; w < comb.processQty; w++) {
                         process_durations.push_back(generator(engine));
                     }
                     break;
                 }
-                case 3: {
+                case EDistributions::UNIFORM20: {
                     std::uniform_int_distribution<unsigned int> generator(20, 100);
                     for (unsigned short int w = 0; w < comb.processQty; w++) {
                         process_durations.push_back(generator(engine));
                     }
                     break;
                 }
-                case 4: {
+                case EDistributions::UNIFORM50: {
                     std::uniform_int_distribution<unsigned int> generator(50, 100);
                     for (unsigned short int w = 0; w < comb.processQty; w++) {
                         process_durations.push_back(generator(engine));
