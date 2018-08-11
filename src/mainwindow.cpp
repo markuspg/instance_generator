@@ -31,6 +31,8 @@
 #include <fstream>
 #include <random>
 
+using valVec = std::vector<unsigned int>;
+
 MainWindow::MainWindow(QWidget *const argParent) :
     QMainWindow{argParent},
     ui{std::make_unique<Ui::MainWindow>()}
@@ -62,7 +64,6 @@ void MainWindow::GenerateProblem() {
         }
 
         // Create the vector storing the processes' durations
-        using valVec = std::vector<unsigned int>;
         valVec processDurations;
         const auto processesQuantity = ui->SBProcesses->value();
         processDurations.reserve(static_cast<valVec::size_type>(
@@ -199,95 +200,105 @@ void MainWindow::GenerateDefaultInstances() {
                 filename.append("-");
                 filename.append(std::to_string(comb.processQty));
                 filename.append(".");
-
                 filename.append(std::to_string(v));
-                std::string xpress_filename (filename);
+
+                const std::string xpressFilename{filename + ".txt"};
                 filename.append(".pbl");
-                xpress_filename.append(".txt");
 
                 // Create Processes
-                std::vector<unsigned int> process_durations;
-                process_durations.reserve(comb.processQty);
+                valVec processDurations;
+                processDurations.reserve(comb.processQty);
 
-                unsigned int seed = QDateTime::currentMSecsSinceEpoch();
-                std::default_random_engine engine(seed);
+                const auto seed = QDateTime::currentMSecsSinceEpoch();
+                std::default_random_engine engine{seed};
                 switch(distrib.distribution) {
                 case EDistributions::NORMAL20: {
-                    std::normal_distribution<double> generator(100.0, 20.0);
+                    std::normal_distribution<double> generator{100.0, 20.0};
                     for (unsigned short int w = 0; w < comb.processQty; w++) {
                         double temp = 1;
                         do {
                             temp = generator(engine) + 0.5;
                         } while (temp < 1);
-                        process_durations.push_back(static_cast<unsigned int>(temp));
+                        processDurations.emplace_back(static_cast<unsigned int>(temp));
                     }
                     break;
                 }
                 case EDistributions::NORMAL50: {
-                    std::normal_distribution<double> generator(100.0, 50.0);
+                    std::normal_distribution<double> generator{100.0, 50.0};
                     for (unsigned short int w = 0; w < comb.processQty; w++) {
                         double temp = 1;
                         do {
                             temp = generator(engine) + 0.5;
                         } while (temp < 1);
-                        process_durations.push_back(static_cast<unsigned int>(temp));
+                        processDurations.emplace_back(static_cast<unsigned int>(temp));
                     }
                     break;
                 }
                 case EDistributions::UNIFORM1: {
-                    std::uniform_int_distribution<unsigned int> generator(1, 100);
+                    std::uniform_int_distribution<unsigned int> generator{1, 100};
                     for (unsigned short int w = 0; w < comb.processQty; w++) {
-                        process_durations.push_back(generator(engine));
+                        processDurations.emplace_back(generator(engine));
                     }
                     break;
                 }
                 case EDistributions::UNIFORM20: {
                     std::uniform_int_distribution<unsigned int> generator(20, 100);
                     for (unsigned short int w = 0; w < comb.processQty; w++) {
-                        process_durations.push_back(generator(engine));
+                        processDurations.emplace_back(generator(engine));
                     }
                     break;
                 }
                 case EDistributions::UNIFORM50: {
                     std::uniform_int_distribution<unsigned int> generator(50, 100);
                     for (unsigned short int w = 0; w < comb.processQty; w++) {
-                        process_durations.push_back(generator(engine));
+                        processDurations.emplace_back(generator(engine));
                     }
                 }
                 }
-                std::sort (process_durations.begin(), process_durations.end());
+                std::sort (processDurations.begin(), processDurations.end(),
+                           std::greater<valVec::value_type>());
 
-                std::ofstream output_file_stream, xpress_output_file_stream;
-                output_file_stream.open (filename, std::ofstream::out | std::ofstream::trunc);
-                xpress_output_file_stream.open (xpress_filename, std::ofstream::out | std::ofstream::trunc);
+                std::ofstream outputFileStream;
+                std::ofstream xpressOutputFileStream;
+                outputFileStream.open(filename, std::ofstream::out
+                                      | std::ofstream::trunc);
+                if (outputFileStream.fail() == true) {
+                    throw FileOpenFailureException{};
+                }
+                xpressOutputFileStream.open(xpressFilename, std::ofstream::out |
+                                            std::ofstream::trunc);
+                if (xpressOutputFileStream.fail() == true) {
+                    throw FileOpenFailureException{};
+                }
 
                 // Storing the problem's general settings
-                output_file_stream << "# Machines\n" << comb.machineQty
+                outputFileStream << "# Machines\n" << comb.machineQty
                                    << "\n# Processes\n" << comb.processQty
                                    << "\n# Process durations\n";
-                xpress_output_file_stream << "Machines: " << comb.machineQty
+                xpressOutputFileStream << "Machines: " << comb.machineQty
                                           << "\nProcesses: " << comb.processQty
                                           << "\nDurations: [";
 
-                // Store the problem's process durations. The vector is iterated reversely because of a wrong order of the sort function.
-                for (std::vector<unsigned int>::reverse_iterator rit = process_durations.rbegin(); rit != process_durations.rend(); ++rit) {
-                    output_file_stream << *rit;
-                    xpress_output_file_stream << *rit;
-                    if (rit != (process_durations.rend() - 1)) {
-                        output_file_stream << ";";
-                        xpress_output_file_stream << ",";
+                // Store the problem's process durations.
+                for (auto cit = processDurations.cbegin();
+                     cit != processDurations.cend(); ++cit) {
+                    outputFileStream << *cit;
+                    xpressOutputFileStream << *cit;
+                    if (cit != (processDurations.cend() - 1)) {
+                        outputFileStream << ";";
+                        xpressOutputFileStream << ",";
                     }
                 }
-                output_file_stream << "\n";
-                xpress_output_file_stream << "]\n";
+                outputFileStream << "\n";
+                xpressOutputFileStream << "]\n";
 
-                output_file_stream.close ();
-                xpress_output_file_stream.close ();
+                outputFileStream.close ();
+                xpressOutputFileStream.close ();
                 ui->statusBar->showMessage("The problem instances have been created");
 
-                Histogram *histogram;
                 QString tempfilename = QString::fromUtf8(filename.c_str());
-                histogram = new Histogram(std::move(process_durations), tempfilename);
+                const auto histogram = new Histogram{std::move(processDurations),
+                                                     tempfilename};
                 histogram->show();
                 histogram->setAttribute(Qt::WA_DeleteOnClose);
 
