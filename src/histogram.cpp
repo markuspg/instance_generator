@@ -23,31 +23,27 @@
 Histogram::Histogram(std::vector<unsigned int> &&argDurations,
                      const QString &argFilename, QWidget *const argParent) :
     QMainWindow{argParent},
-    process_durations{std::move(argDurations)},
-    scene{new QGraphicsScene},
+    processDurations{std::move(argDurations)},
     ui{std::make_unique<Ui::Histogram>()}
 {
     // Create a QGraphicsScene and add the graphics to it
     ui->setupUi(this);
     setWindowTitle(argFilename);
-    scene->setParent(this);
+    const auto scene = new QGraphicsScene{this};
     ui->GVHistogram->setScene(scene);
 
-    unsigned short int current_shown_process = 0;
-    const auto vector_size = process_durations.size();
-    for (auto rit = process_durations.rbegin();
-         rit != process_durations.rend(); ++rit) {
-        if (vector_size > 500) {
-            scene->addRect(6 + current_shown_process,
-                           process_durations.back() - (*rit), 1, (*rit),
+    unsigned short int currentShownProcess = 0;
+    const auto vectorSize = processDurations.size();
+    for (const auto duration : processDurations) {
+        if (vectorSize > 500) {
+            scene->addRect(currentShownProcess, -duration, 1, duration,
                            QPen{QColor{0, 255, 0}});
         }
         else {
-            scene->addRect(6 + current_shown_process * 3,
-                           process_durations.back() - (*rit), 3, (*rit),
+            scene->addRect(currentShownProcess * 3, -duration, 3, duration,
                            QPen{QColor{0, 255, 0}});
         }
-        ++current_shown_process;
+        ++currentShownProcess;
     }
 
     // Save the QGrapicsScene to a file

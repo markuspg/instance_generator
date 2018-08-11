@@ -25,8 +25,6 @@
 #include <memory>
 #include <vector>
 
-class QGraphicsScene;
-
 namespace Ui {
 class Histogram;
 } // namespace Ui
@@ -41,8 +39,7 @@ public:
     ~Histogram() override;
     
 private:
-    std::vector<unsigned int> process_durations;
-    QGraphicsScene *const scene = nullptr;
+    const std::vector<unsigned int> processDurations;
     const std::unique_ptr<Ui::Histogram> ui;
 };
 
