@@ -23,7 +23,6 @@
 #include "ui_mainwindow.h"
 
 #include <QDateTime>
-#include <QException>
 #include <QFile>
 #include <QTextStream>
 #include <QThread>

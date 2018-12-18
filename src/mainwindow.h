@@ -55,7 +55,7 @@ private:
     };
 
     void GenerateDefaultInstances();
-    void GenerateProblem ();
+    void GenerateProblem();
 
     EDistribution choice = EDistribution::NORMAL20;
     const std::unique_ptr<Ui::MainWindow> ui;
