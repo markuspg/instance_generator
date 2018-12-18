@@ -37,6 +37,12 @@ MainWindow::MainWindow(QWidget *const argParent) :
     ui{std::make_unique<Ui::MainWindow>()}
 {
     ui->setupUi(this);
+
+    connect(ui->PBCreateDefaultInstances, &QPushButton::clicked,
+            this, &MainWindow::GenerateDefaultInstances);
+    connect(ui->PBCreateProblemInstance, &QPushButton::clicked,
+            this, &MainWindow::GenerateProblemsAccordingToSettings);
+
     ui->RBNormal50Distribution->click();
 }
 
@@ -44,7 +50,7 @@ MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::GenerateProblem() {
+void MainWindow::GenerateProblemsAccordingToSettings() {
     const auto instanceQuantity = ui->SBInstances->value();
     for (int k = 0; k < instanceQuantity; ++k) {
         // Create the filenames and open the files
@@ -311,10 +317,6 @@ void MainWindow::GenerateDefaultInstances() {
     }
 }
 
-void MainWindow::on_PBCreateProblemInstance_clicked() {
-    GenerateProblem();
-}
-
 void MainWindow::on_RBNormal50Distribution_toggled(const bool argChecked)
 {
     if (argChecked == true)
@@ -343,9 +345,4 @@ void MainWindow::on_RBUniform50Distribution_toggled(const bool argChecked)
 {
     if (argChecked == true)
         choice = EDistribution::UNIFORM50;
-}
-
-void MainWindow::on_PBCreateDefaultInstances_clicked()
-{
-    GenerateDefaultInstances();
 }

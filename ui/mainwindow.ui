@@ -168,14 +168,14 @@
     <item>
      <widget class="QPushButton" name="PBCreateProblemInstance">
       <property name="text">
-       <string>Create Problem Instances</string>
+       <string>Create Problem Instances According to Above Settings</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="PBCreateDefaultInstances">
       <property name="text">
-       <string>Create Default Instances</string>
+       <string>Create Problem Instances According to Defaults</string>
       </property>
      </widget>
     </item>

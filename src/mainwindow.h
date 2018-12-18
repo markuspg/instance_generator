@@ -37,13 +37,11 @@ public:
     ~MainWindow() override;
     
 private slots:
-    void on_PBCreateProblemInstance_clicked();
     void on_RBNormal50Distribution_toggled(const bool argChecked);
     void on_RBNormal20Distribution_toggled(const bool argChecked);
     void on_RBUniform1Distribution_toggled(const bool argChecked);
     void on_RBUniform20Distribution_toggled(const bool argChecked);
     void on_RBUniform50Distribution_toggled(const bool argChecked);
-    void on_PBCreateDefaultInstances_clicked();
 
 private:
     enum class EDistribution {
@@ -55,7 +53,7 @@ private:
     };
 
     void GenerateDefaultInstances();
-    void GenerateProblem();
+    void GenerateProblemsAccordingToSettings();
 
     EDistribution choice = EDistribution::NORMAL20;
     const std::unique_ptr<Ui::MainWindow> ui;
