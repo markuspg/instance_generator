@@ -45,6 +45,8 @@ private slots:
 
 private:
     enum class EDistribution {
+        UNINITIALIZED,
+
         NORMAL20,
         NORMAL50,
         UNIFORM1,
@@ -55,7 +57,7 @@ private:
     void GenerateDefaultInstances();
     void GenerateProblemsAccordingToSettings();
 
-    EDistribution choice = EDistribution::NORMAL20;
+    EDistribution choice = EDistribution::UNINITIALIZED;
     const std::unique_ptr<Ui::MainWindow> ui;
 };
 
